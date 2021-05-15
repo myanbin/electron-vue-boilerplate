@@ -2,6 +2,16 @@
   <div>
     <p>文件名<br/>{{$props.photo.file}}</p>
     <p>拍摄时间<br/>{{dayjs($props.photo.ctime).format()}}</p>
+    <p>文件名<br/>{{$props.photo.file}}</p>
+    <p>拍摄时间<br/>{{dayjs($props.photo.ctime).format()}}</p>
+    <p>文件名<br/>{{$props.photo.file}}</p>
+    <p>拍摄时间<br/>{{dayjs($props.photo.ctime).format()}}</p>
+    <p>文件名<br/>{{$props.photo.file}}</p>
+    <p>拍摄时间<br/>{{dayjs($props.photo.ctime).format()}}</p>
+    <p>文件名<br/>{{$props.photo.file}}</p>
+    <p>拍摄时间<br/>{{dayjs($props.photo.ctime).format()}}</p>
+    <p>文件名<br/>{{$props.photo.file}}</p>
+    <p>拍摄时间<br/>{{dayjs($props.photo.ctime).format()}}</p>
   </div>
 </template>
 

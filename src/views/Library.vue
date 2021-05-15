@@ -1,13 +1,14 @@
 <template>
   <v-app>
-    <v-app-bar app color="indigo" dark dense>
+    <v-app-bar app color="primary" dark dense>
       <v-btn icon>
         <v-icon>mdi-menu</v-icon>
       </v-btn>
 
       <v-toolbar-title>照片库</v-toolbar-title>
-
       <v-spacer></v-spacer>
+
+      <search-field @change="search"/>
 
       <v-btn icon @click="$router.push('/settings')">
         <v-icon>mdi-cog</v-icon>
@@ -24,14 +25,24 @@
 </template>
 
 <script>
+import SearchField from '../components/SearchField'
+
 export default {
   name: 'Library',
+  components: {
+    SearchField
+  },
   data: () => ({
     photos: []
   }),
   created () {
     const photos = JSON.parse(localStorage.getItem('library'))
     this.photos = photos
+  },
+  methods: {
+    search (value) {
+      console.log('search library', value)
+    }
   }
 }
 </script>

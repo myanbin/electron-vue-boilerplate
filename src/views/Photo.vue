@@ -8,25 +8,25 @@
 
       <v-spacer></v-spacer>
 
-      <v-btn icon @click.stop="drawer = true; drawerType = 'info'">
+      <v-btn icon :disabled="!photo" @click.stop="drawer = true; drawerType = 'info'">
         <v-icon>mdi-information</v-icon>
       </v-btn>
-      <v-btn icon @click.stop="drawer = true; drawerType = 'face'">
+      <v-btn icon :disabled="!photo" @click.stop="drawer = true; drawerType = 'face'">
         <v-icon>mdi-account-box</v-icon>
       </v-btn>
-      <v-btn icon @click.stop="drawer = true; drawerType = 'search'">
+      <v-btn icon :disabled="!photo" @click.stop="drawer = true; drawerType = 'search'">
         <v-icon>mdi-image-search</v-icon>
       </v-btn>
-      <v-btn icon @click.stop="drawer = true; drawerType = 'tags'">
+      <v-btn icon :disabled="!photo" @click.stop="drawer = true; drawerType = 'tags'">
         <v-icon>mdi-tag-multiple</v-icon>
       </v-btn>
-      <v-btn icon color="red">
+      <v-btn icon color="red" :disabled="!photo">
         <v-icon>mdi-delete</v-icon>
       </v-btn>
     </v-app-bar>
 
     <v-navigation-drawer app right permanent width="320" color="grey lighten-4" v-if="drawer">
-      <v-app-bar color="primary" dark dense>
+      <v-app-bar absolute color="primary" dark dense>
         <v-toolbar-title>{{drawerType}}</v-toolbar-title>
         <v-spacer></v-spacer>
         <v-btn icon @click.stop="drawer = false">
@@ -34,13 +34,13 @@
         </v-btn>
       </v-app-bar>
 
-      <div class="ma-4" v-if="drawerType === 'info'">
+      <div class="drawer-content" v-if="drawerType === 'info'">
         <photo-info :photo="photo"/>
       </div>
-      <div class="ma-4" v-else-if="drawerType === 'face'">
+      <div class="drawer-content" v-else-if="drawerType === 'face'">
         <photo-face :photo="photo"/>
       </div>
-      <div class="ma-4" v-else-if="drawerType === 'search'">
+      <div class="drawer-content" v-else-if="drawerType === 'search'">
         Search
       </div>
     </v-navigation-drawer>
@@ -71,7 +71,7 @@ export default {
     drawerType: '',
     photo: null
   }),
-  mounted () {
+  created () {
     const photos = JSON.parse(localStorage.getItem('library'))
     const index = photos.findIndex(item => item.uuid === this.$route.params.uuid)
     this.photo = photos[index]
@@ -88,5 +88,8 @@ export default {
   height: calc(100vh - 80px);
   justify-content: center;
   align-items: center;
+}
+.drawer-content {
+  margin: 64px 16px 16px 16px;
 }
 </style>
