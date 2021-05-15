@@ -1,11 +1,21 @@
 <template>
   <div>
-    aa
+    <p>文件名<br/>{{$props.photo.file}}</p>
+    <p>拍摄时间<br/>{{dayjs($props.photo.ctime).format()}}</p>
   </div>
 </template>
 
 <script>
+import * as dayjs from 'dayjs'
+
 export default {
-  name: 'PhotoInfo'
+  name: 'PhotoInfo',
+  props: ['photo'],
+  data: () => ({
+    dayjs
+  }),
+  created () {
+    console.log(this.$props.photo)
+  }
 }
 </script>

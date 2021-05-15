@@ -4,7 +4,7 @@
       <v-btn icon @click="$router.push('/')">
         <v-icon>mdi-arrow-left</v-icon>
       </v-btn>
-      <v-toolbar-title>照片</v-toolbar-title>
+      <v-toolbar-title>照片 {{$route.params.uuid.split('-')[4]}}</v-toolbar-title>
 
       <v-spacer></v-spacer>
 
@@ -25,7 +25,7 @@
       </v-btn>
     </v-app-bar>
 
-    <v-navigation-drawer app right permanent width="320" v-if="drawer">
+    <v-navigation-drawer app right permanent width="320" color="grey lighten-4" v-if="drawer">
       <v-app-bar color="primary" dark dense>
         <v-toolbar-title>{{drawerType}}</v-toolbar-title>
         <v-spacer></v-spacer>
@@ -35,20 +35,23 @@
       </v-app-bar>
 
       <div class="ma-4" v-if="drawerType === 'info'">
-        <photo-info/>
+        <photo-info :photo="photo"/>
       </div>
       <div class="ma-4" v-else-if="drawerType === 'face'">
-        <photo-face/>
+        <photo-face :photo="photo"/>
       </div>
       <div class="ma-4" v-else-if="drawerType === 'search'">
         Search
       </div>
     </v-navigation-drawer>
 
-    <v-main class="ma-4">
-      <div class="photo-canvas">
-        <v-img contain width="100%" height="100%" src="file:///Users/ybm/Pictures/趣图/20210511011014_450694.jpeg"></v-img>
+    <v-main class=" photo-main ma-4">
+
+      <div class="photo-canvas" v-if="photo">
+        <v-img contain width="100%" height="100%" :src="`file://${photo.path}`"></v-img>
       </div>
+      <div class="photo-canvas" v-else>No photo.</div>
+
     </v-main>
   </v-app>
 </template>
@@ -65,12 +68,21 @@ export default {
   },
   data: () => ({
     drawer: false,
-    drawerType: ''
-  })
+    drawerType: '',
+    photo: null
+  }),
+  mounted () {
+    const photos = JSON.parse(localStorage.getItem('library'))
+    const index = photos.findIndex(item => item.uuid === this.$route.params.uuid)
+    this.photo = photos[index]
+  }
 }
 </script>
 
 <style scoped>
+.photo-main {
+  position: relative;
+}
 .photo-canvas {
   display: flex;
   height: calc(100vh - 80px);
