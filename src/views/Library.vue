@@ -4,12 +4,13 @@
       <v-btn icon>
         <v-icon>mdi-menu</v-icon>
       </v-btn>
-
       <v-toolbar-title>照片库</v-toolbar-title>
       <v-spacer></v-spacer>
 
       <search-field @change="search"/>
-
+      <v-btn icon>
+        <v-icon>mdi-sync</v-icon>
+      </v-btn>
       <v-btn icon @click="$router.push('/settings')">
         <v-icon>mdi-cog</v-icon>
       </v-btn>

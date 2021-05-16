@@ -20,6 +20,7 @@ export default {
   width: 280px;
   height: 32px;
   box-sizing: border-box;
+  margin-right: 8px;
 }
 .search-field > .search-field-icon {
   width: 48px;
@@ -30,7 +31,7 @@ export default {
   background-color: transparent;
   width: 100%;
   height: 100%;
-  font-size: 16px;
+  font-size: 15px;
   color: #fff;
   z-index: 99;
 }

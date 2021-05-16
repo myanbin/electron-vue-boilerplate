@@ -5,8 +5,11 @@
         <v-icon>mdi-arrow-left</v-icon>
       </v-btn>
       <v-toolbar-title>照片 {{$route.params.uuid.split('-')[4]}}</v-toolbar-title>
-
       <v-spacer></v-spacer>
+
+      <v-btn icon :disabled="!photo">
+        <v-icon color="red">mdi-heart</v-icon>
+      </v-btn>
 
       <v-btn icon :disabled="!photo" @click.stop="drawer = true; drawerType = 'info'">
         <v-icon>mdi-information</v-icon>
@@ -20,14 +23,31 @@
       <v-btn icon :disabled="!photo" @click.stop="drawer = true; drawerType = 'tags'">
         <v-icon>mdi-tag-multiple</v-icon>
       </v-btn>
-      <v-btn icon color="red" :disabled="!photo">
-        <v-icon>mdi-delete</v-icon>
-      </v-btn>
+
+      <v-menu left bottom>
+        <template v-slot:activator="{ on, attrs }">
+          <v-btn icon v-bind="attrs" v-on="on">
+            <v-icon>mdi-dots-vertical</v-icon>
+          </v-btn>
+        </template>
+        <v-list min-width="96" dense>
+          <v-list-item @click="() => {}">
+            <v-list-item-title>编辑</v-list-item-title>
+          </v-list-item>
+          <v-list-item @click="() => {}">
+            <v-list-item-title>在文件夹中显示</v-list-item-title>
+          </v-list-item>
+          <v-divider></v-divider>
+          <v-list-item @click="() => {}">
+            <v-list-item-title>删除</v-list-item-title>
+          </v-list-item>
+        </v-list>
+      </v-menu>
     </v-app-bar>
 
     <v-navigation-drawer app right permanent width="320" color="grey lighten-4" v-if="drawer">
       <v-app-bar absolute color="primary" dark dense>
-        <v-toolbar-title>{{drawerType}}</v-toolbar-title>
+        <div>{{drawerTitle}}</div>
         <v-spacer></v-spacer>
         <v-btn icon @click.stop="drawer = false">
           <v-icon>mdi-close</v-icon>
@@ -42,6 +62,9 @@
       </div>
       <div class="drawer-content" v-else-if="drawerType === 'search'">
         <photo-search :photo="photo"/>
+      </div>
+      <div class="drawer-content" v-else-if="drawerType === 'tags'">
+        tags
       </div>
     </v-navigation-drawer>
 
@@ -73,6 +96,17 @@ export default {
     drawerType: '',
     photo: null
   }),
+  computed: {
+    drawerTitle () {
+      const drawerMapping = [
+        { key: 'info', value: '照片信息' },
+        { key: 'face', value: '人脸识别' },
+        { key: 'search', value: '以图搜图' },
+        { key: 'tags', value: '智能标签' }
+      ]
+      return drawerMapping.find(item => item.key === this.drawerType).value
+    }
+  },
   created () {
     const photos = JSON.parse(localStorage.getItem('library'))
     const index = photos.findIndex(item => item.uuid === this.$route.params.uuid)
