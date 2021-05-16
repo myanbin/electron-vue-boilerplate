@@ -1,13 +1,12 @@
 <template>
   <div v-if="loading">
     <div class="loading">
-      <p>正在人脸识别 ..</p>
+      <p>正在以图搜图 ..</p>
       <v-progress-linear indeterminate rounded height="6"></v-progress-linear>
     </div>
   </div>
   <div v-else>
-    <p>人脸识别<br/>{{$props.photo.file}}</p>
-    <p>人脸识别<br/>{{face}}</p>
+    <p>以图搜图<br/>{{result}}</p>
   </div>
 </template>
 
@@ -15,17 +14,17 @@
 import axios from 'axios'
 
 export default {
-  name: 'PhotoFace',
+  name: 'PhotoSearch',
   props: ['photo'],
   data: () => ({
     loading: true,
-    face: null
+    result: null
   }),
   created () {
     axios.get('https://br.xinhua-news.cn/cav20/api/2020/candidates').then(response => {
       console.log(response)
       this.loading = false
-      this.face = response.data.data[0].content
+      this.result = response.data.data[2].content
     }).catch(error => {
       console.log(error)
     })

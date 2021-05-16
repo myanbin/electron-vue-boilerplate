@@ -41,7 +41,7 @@
         <photo-face :photo="photo"/>
       </div>
       <div class="drawer-content" v-else-if="drawerType === 'search'">
-        Search
+        <photo-search :photo="photo"/>
       </div>
     </v-navigation-drawer>
 
@@ -59,12 +59,14 @@
 <script>
 import PhotoInfo from '../components/PhotoInfo'
 import PhotoFace from '../components/PhotoFace'
+import PhotoSearch from '../components/PhotoSearch'
 
 export default {
   name: 'Photo',
   components: {
     PhotoInfo,
-    PhotoFace
+    PhotoFace,
+    PhotoSearch
   },
   data: () => ({
     drawer: false,

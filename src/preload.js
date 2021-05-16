@@ -26,8 +26,18 @@ const getPhotosFromDirectory = directory => {
 }
 
 const photos = getPhotosFromDirectory(
-  '/Users/ybm/Pictures/照片图库.photoslibrary/resources/derivatives/masters/2/'
+  '/Users/ybm/Pictures/趣图/'
 )
 
 console.log(photos)
 localStorage.setItem('library', JSON.stringify(photos))
+
+const settings = {
+  paths: [
+    '/Users/ybm/Pictures/照片图库.photoslibrary/',
+    '/Users/ybm/Pictures/趣图/'
+  ],
+  theme: 'light'
+}
+
+localStorage.setItem('settings', JSON.stringify(settings))

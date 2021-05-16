@@ -15,37 +15,21 @@
       <h5 class="text-h5 mb-4">照片源</h5>
 
       <p>
-        <v-btn color="primary">添加文件夹</v-btn>
+        <v-btn color="primary" @click="addFolder">添加文件夹</v-btn>
       </p>
 
       <v-list dense>
-        <v-list-item @click.stop="openFolder('/user/ybm/pictures/')">
+        <v-list-item v-for="path in settings.paths" :key="path" @click.stop="openFolder(path)">
           <v-list-item-avatar size="32" color="grey">
             <v-icon small dark>mdi-folder</v-icon>
           </v-list-item-avatar>
 
           <v-list-item-content>
-            <v-list-item-title>/user/ybm/pictures/</v-list-item-title>
+            <v-list-item-title>{{path}}</v-list-item-title>
           </v-list-item-content>
 
           <v-list-item-icon>
-            <v-btn icon @click.stop="deleteFolder('/user/ybm/pictures/')">
-              <v-icon>mdi-delete</v-icon>
-            </v-btn>
-          </v-list-item-icon>
-        </v-list-item>
-
-        <v-list-item @click.stop="openFolder('/user/ybm/pictures/')">
-          <v-list-item-avatar size="32" color="grey">
-            <v-icon small dark>mdi-folder</v-icon>
-          </v-list-item-avatar>
-
-          <v-list-item-content>
-            <v-list-item-title>/user/myanbin/onedriver/</v-list-item-title>
-          </v-list-item-content>
-
-          <v-list-item-icon>
-            <v-btn icon @click.stop="deleteFolder('/user/myanbin/onedriver/')">
+            <v-btn icon @click.stop="deleteFolder(path)">
               <v-icon>mdi-delete</v-icon>
             </v-btn>
           </v-list-item-icon>
@@ -55,7 +39,7 @@
       <h5 class="text-h5 mb-4">外观</h5>
       <p>选择应用主题</p>
 
-      <v-radio-group row>
+      <v-radio-group row v-model="settings.theme">
         <v-radio label="亮色模式" value="light"></v-radio>
         <v-radio label="暗黑模式" value="dark"></v-radio>
         <v-radio label="系统设置" value="system"></v-radio>
@@ -71,7 +55,16 @@
 <script>
 export default {
   name: 'Settings',
+  data: () => ({
+    settings: null
+  }),
+  created () {
+    this.settings = JSON.parse(localStorage.getItem('settings'))
+  },
   methods: {
+    addFolder () {
+      localStorage.setItem('settings', JSON.stringify({ paths: ['/a', '/b'] }))
+    },
     openFolder (path) {
       console.log('open', path)
     },
