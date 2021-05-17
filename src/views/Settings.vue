@@ -62,12 +62,17 @@ export default {
     settings: null
   }),
   created () {
-    this.settings = JSON.parse(localStorage.getItem('settings'))
+    this.settings = {
+      paths: [],
+      theme: 'light'
+    }
   },
   methods: {
     addFolder () {
       ipcRenderer.invoke('open-directory-dialog').then(path => {
-        path && this.settings.paths.push(path)
+        if (path && !this.settings.paths.includes(path)) {
+          this.settings.paths.push(path)
+        }
       })
     },
     openFolder (path) {
