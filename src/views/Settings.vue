@@ -16,23 +16,24 @@
       <v-btn color="primary" @click="addFolder">添加文件夹</v-btn>
 
       <v-list dense class="mb-4">
-        <v-divider></v-divider>
-        <template v-for="path in settings.paths">
-          <v-list-item :key="path" @click.stop="openFolder(path)">
-            <v-list-item-avatar size="32" color="grey">
-              <v-icon small dark>mdi-folder</v-icon>
-            </v-list-item-avatar>
-            <v-list-item-content>
-              <v-list-item-title>{{path}}</v-list-item-title>
-            </v-list-item-content>
-            <v-list-item-icon>
-              <v-btn icon @click.stop="deleteFolder(path)">
-                <v-icon>mdi-delete</v-icon>
-              </v-btn>
-            </v-list-item-icon>
-          </v-list-item>
-          <v-divider :key="path"></v-divider>
-        </template>
+        <v-divider/>
+        <v-list-item v-for="path in settings.paths" :key="path" @click.stop="openFolder(path)">
+          <v-list-item-avatar size="28" color="grey">
+            <v-icon small dark>mdi-folder</v-icon>
+          </v-list-item-avatar>
+          <v-list-item-content>
+            <v-list-item-title class="path">{{path}}</v-list-item-title>
+          </v-list-item-content>
+          <v-list-item-icon>
+            <v-btn icon small color="red" @click.stop="deleteFolder(path)">
+              <v-icon>mdi-delete</v-icon>
+            </v-btn>
+          </v-list-item-icon>
+        </v-list-item>
+        <v-list-item v-if="!settings.paths.length">
+          <v-list-item-title class="path">暂无文件夹</v-list-item-title>
+        </v-list-item>
+        <v-divider/>
       </v-list>
 
       <h5 class="text-h5 mb-4">外观</h5>
@@ -53,6 +54,8 @@
 </template>
 
 <script>
+import { ipcRenderer, shell } from 'electron'
+
 export default {
   name: 'Settings',
   data: () => ({
@@ -63,18 +66,23 @@ export default {
   },
   methods: {
     addFolder () {
-      localStorage.setItem('settings', JSON.stringify({ paths: ['/a', '/b'] }))
+      ipcRenderer.invoke('open-directory-dialog').then(path => {
+        path && this.settings.paths.push(path)
+      })
     },
     openFolder (path) {
-      console.log('open', path)
+      shell.openPath(path)
     },
     deleteFolder (path) {
-      console.log('delete', path)
+      //
     }
   }
 }
 </script>
 
 <style scoped>
-
+div.v-list-item__title.path {
+  font-size: 14px;
+  font-weight: 400;
+}
 </style>

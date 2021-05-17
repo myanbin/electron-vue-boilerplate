@@ -15,8 +15,8 @@ protocol.registerSchemesAsPrivileged([
 async function createWindow () {
   // Create the browser window.
   const win = new BrowserWindow({
-    width: 1024,
-    height: 768,
+    width: 1280,
+    height: 800,
     webPreferences: {
       preload: path.join(__dirname, 'preload.js'),
       // Use pluginOptions.nodeIntegration, leave this alone
@@ -57,7 +57,7 @@ app.on('activate', () => {
 // initialization and is ready to create browser windows.
 // Some APIs can only be used after this event occurs.
 app.on('ready', async () => {
-  if (isDevelopment && !process.env.IS_TEST) {
+  if (isDevelopment && !process.env.IS_TEST && false) {
     // Install Vue Devtools
     try {
       await installExtension(VUEJS_DEVTOOLS)
@@ -82,3 +82,5 @@ if (isDevelopment) {
     })
   }
 }
+
+require('./main-process')
