@@ -83,4 +83,4 @@ if (isDevelopment) {
   }
 }
 
-require('./main-process')
+import './main-process'

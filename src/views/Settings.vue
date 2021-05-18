@@ -18,16 +18,14 @@
       <v-list dense class="mb-4">
         <v-divider/>
         <v-list-item v-for="path in settings.paths" :key="path" @click.stop="openFolder(path)">
-          <v-list-item-avatar size="28" color="grey">
-            <v-icon small dark>mdi-folder</v-icon>
-          </v-list-item-avatar>
+          <v-list-item-icon>
+            <v-icon>mdi-folder</v-icon>
+          </v-list-item-icon>
           <v-list-item-content>
             <v-list-item-title class="path">{{path}}</v-list-item-title>
           </v-list-item-content>
           <v-list-item-icon>
-            <v-btn icon small color="red" @click.stop="deleteFolder(path)">
-              <v-icon>mdi-delete</v-icon>
-            </v-btn>
+            <v-icon color="red lighten-2" @click.stop="deleteFolder(path)">mdi-delete</v-icon>
           </v-list-item-icon>
         </v-list-item>
         <v-list-item v-if="!settings.paths.length">
@@ -59,27 +57,26 @@ import { ipcRenderer, shell } from 'electron'
 export default {
   name: 'Settings',
   data: () => ({
-    settings: null
+    settings: { paths: [], theme: 'light' }
   }),
   created () {
-    this.settings = {
-      paths: [],
-      theme: 'light'
-    }
+    ipcRenderer.invoke('load-settings').then(settings => {
+      this.settings = settings
+    })
   },
   methods: {
     addFolder () {
-      ipcRenderer.invoke('open-directory-dialog').then(path => {
-        if (path && !this.settings.paths.includes(path)) {
-          this.settings.paths.push(path)
-        }
+      ipcRenderer.invoke('open-directory').then(settings => {
+        this.settings = settings
       })
     },
     openFolder (path) {
       shell.openPath(path)
     },
     deleteFolder (path) {
-      //
+      ipcRenderer.invoke('remove-directory', path).then(settings => {
+        this.settings = settings
+      })
     }
   }
 }

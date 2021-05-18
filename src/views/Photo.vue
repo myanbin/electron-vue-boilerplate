@@ -4,7 +4,7 @@
       <v-btn icon @click="$router.push('/')">
         <v-icon>mdi-arrow-left</v-icon>
       </v-btn>
-      <v-toolbar-title>照片 {{$route.params.uuid.split('-')[4]}}</v-toolbar-title>
+      <v-toolbar-title>照片 {{$route.params.id}}</v-toolbar-title>
       <v-spacer></v-spacer>
 
       <v-btn icon :disabled="!photo">
@@ -80,6 +80,7 @@
 </template>
 
 <script>
+import { ipcRenderer } from 'electron'
 import PhotoInfo from '../components/PhotoInfo'
 import PhotoFace from '../components/PhotoFace'
 import PhotoSearch from '../components/PhotoSearch'
@@ -108,9 +109,9 @@ export default {
     }
   },
   created () {
-    const photos = JSON.parse(localStorage.getItem('library'))
-    const index = photos.findIndex(item => item.uuid === this.$route.params.uuid)
-    this.photo = photos[index]
+    ipcRenderer.invoke('load-photo', this.$route.params.id).then(photo => {
+      this.photo = photo
+    })
   }
 }
 </script>

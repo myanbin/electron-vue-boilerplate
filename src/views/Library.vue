@@ -18,7 +18,7 @@
     </v-app-bar>
 
     <v-main class="ma-4">
-      <router-link :to="`/photo/${photo.uuid}`" class="photo-grid ma-1" v-for="photo in photos" :key="photo.uuid">
+      <router-link :to="`/photo/${photo._id}`" class="photo-grid ma-1" v-for="photo in photos" :key="photo.uuid">
         <img :src="`file://${photo.path}`"/>
       </router-link>
     </v-main>
@@ -26,6 +26,7 @@
 </template>
 
 <script>
+import { ipcRenderer } from 'electron'
 import SearchField from '../components/SearchField'
 
 export default {
@@ -37,8 +38,9 @@ export default {
     photos: []
   }),
   created () {
-    const photos = JSON.parse(localStorage.getItem('library'))
-    this.photos = photos
+    ipcRenderer.invoke('load-photos').then(photos => {
+      this.photos = photos
+    })
   },
   methods: {
     search (value) {
