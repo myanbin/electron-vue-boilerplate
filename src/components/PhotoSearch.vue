@@ -24,7 +24,7 @@ export default {
     axios.get('https://br.xinhua-news.cn/cav20/api/2020/candidates').then(response => {
       console.log(response)
       this.loading = false
-      this.result = response.data.data[2].content
+      this.result = '即将推出'
     }).catch(error => {
       console.log(error)
     })

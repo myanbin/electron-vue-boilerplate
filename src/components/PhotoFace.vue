@@ -7,27 +7,26 @@
   </div>
   <div v-else>
     <p>人脸识别<br/>{{$props.photo.file}}</p>
-    <p>人脸识别<br/>{{face}}</p>
+    <p v-for="face in faces" :key="face.pid">
+      {{face.name}}<br/>{{face.info}}
+    </p>
   </div>
 </template>
 
 <script>
-import axios from 'axios'
+import { ipcRenderer } from 'electron'
 
 export default {
   name: 'PhotoFace',
   props: ['photo'],
   data: () => ({
     loading: true,
-    face: null
+    faces: []
   }),
   created () {
-    axios.get('https://br.xinhua-news.cn/cav20/api/2020/candidates').then(response => {
-      console.log(response)
+    ipcRenderer.invoke('load-photo-faces', this.$props.photo._id).then(faces => {
+      this.faces = faces
       this.loading = false
-      this.face = response.data.data[0].content
-    }).catch(error => {
-      console.log(error)
     })
   }
 }

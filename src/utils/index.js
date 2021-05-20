@@ -12,15 +12,13 @@ export const walkdir = directory => {
     if (stat && stat.isDirectory()) {
       files.splice(0, 0, ...walkdir(file))
     } else if (file.match(/[.]jpe?g$/i)) {
-      const base64 = Buffer.from(fs.readFileSync(file), 'binary').toString('base64')
       files.push({
         uuid: uuidv4(),
         path: file,
         file: item,
         source: directory,
         size: stat.size,
-        ctime: stat.ctimeMs,
-        thumbnail: base64
+        ctime: stat.ctimeMs
       })
     }
   })

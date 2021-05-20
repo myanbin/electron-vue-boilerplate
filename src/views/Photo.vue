@@ -34,7 +34,7 @@
           <v-list-item @click="() => {}">
             <v-list-item-title>编辑</v-list-item-title>
           </v-list-item>
-          <v-list-item @click="() => {}">
+          <v-list-item @click="openPhotoInFolder">
             <v-list-item-title>在文件夹中显示</v-list-item-title>
           </v-list-item>
           <v-divider></v-divider>
@@ -64,7 +64,7 @@
         <photo-search :photo="photo"/>
       </div>
       <div class="drawer-content" v-else-if="drawerType === 'tags'">
-        tags
+        即将推出
       </div>
     </v-navigation-drawer>
 
@@ -80,7 +80,7 @@
 </template>
 
 <script>
-import { ipcRenderer } from 'electron'
+import { ipcRenderer, shell } from 'electron'
 import PhotoInfo from '../components/PhotoInfo'
 import PhotoFace from '../components/PhotoFace'
 import PhotoSearch from '../components/PhotoSearch'
@@ -112,6 +112,11 @@ export default {
     ipcRenderer.invoke('load-photo', this.$route.params.id).then(photo => {
       this.photo = photo
     })
+  },
+  methods: {
+    openPhotoInFolder () {
+      shell.showItemInFolder(this.photo.path)
+    }
   }
 }
 </script>
