@@ -1,6 +1,8 @@
 {
   "name": "photos-library",
   "version": "0.1.0",
+  "description": "a tiny photos library",
+  "author": "马艳彬 <mayanbin@xinhua.org>",
   "private": true,
   "scripts": {
     "electron:build": "vue-cli-service electron:build",

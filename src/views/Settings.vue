@@ -11,7 +11,7 @@
 
     <v-main class="ma-4">
       <h5 class="text-h5 mb-4">照片源</h5>
-      <p>您的照片库中共有 340 张照片，添加文件夹以包含更多照片。</p>
+      <p>您的照片库中共有 {{settings.count}} 张照片，添加文件夹以包含更多照片。</p>
 
       <v-btn color="primary" @click="addFolder">添加文件夹</v-btn>
 
@@ -57,7 +57,7 @@ import { ipcRenderer, shell } from 'electron'
 export default {
   name: 'Settings',
   data: () => ({
-    settings: { paths: [], theme: 'light' }
+    settings: { paths: [], theme: 'light', count: 0 }
   }),
   created () {
     ipcRenderer.invoke('load-settings').then(settings => {

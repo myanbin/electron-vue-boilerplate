@@ -6,7 +6,6 @@
     </div>
   </div>
   <div v-else>
-    <p>人脸识别<br/>{{$props.photo.file}}</p>
     <p v-for="face in faces" :key="face.pid">
       {{face.name}}<br/>{{face.info}}
     </p>
@@ -17,7 +16,7 @@
 import { ipcRenderer } from 'electron'
 
 export default {
-  name: 'PhotoFace',
+  name: 'PhotoFaces',
   props: ['photo'],
   data: () => ({
     loading: true,
@@ -26,6 +25,7 @@ export default {
   created () {
     ipcRenderer.invoke('load-photo-faces', this.$props.photo._id).then(faces => {
       this.faces = faces
+      console.log(faces)
       this.loading = false
     })
   }

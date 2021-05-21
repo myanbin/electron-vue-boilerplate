@@ -1,5 +1,7 @@
 import fs from 'fs'
 import path from 'path'
+import axios from 'axios'
+import qs from 'qs'
 import { v4 as uuidv4 } from 'uuid'
 
 export const walkdir = directory => {
@@ -24,4 +26,35 @@ export const walkdir = directory => {
   })
 
   return files
+}
+
+export const facesRecognitionApi = async (uuid, base64) => {
+  const response_1 = await axios.post(
+    'https://ai.xinhua-news.cn/auth/session',
+    qs.stringify({
+      'username': 'photolib',
+      'password': 'photos@library'
+    }),
+    {
+      headers: {
+        'Origin': 'https://ai.xinhua-news.cn',
+        'Content-Type': 'application/x-www-form-urlencoded',
+      }
+    }
+  )
+  const response_2 = await axios.post(
+    'https://ai.xinhua-news.cn/saas/face/FaceDetection',
+    {
+      fileID: uuid,
+      type: 1,
+      img: base64
+    },
+    {
+      headers: {
+        'Authorization': `Bearer ${response_1.data.result.id_token}`
+      }
+    }
+  )
+  const faces = response_2.data.result.objects.filter(face => face.name !== 'unknown').map(face => ({ name: face.name, info: face.info, position: face.position }))
+  return faces
 }

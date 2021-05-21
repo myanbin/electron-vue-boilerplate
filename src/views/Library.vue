@@ -18,9 +18,12 @@
     </v-app-bar>
 
     <v-main class="ma-4">
-      <router-link :to="`/photo/${photo._id}`" class="photo-grid ma-1" v-for="photo in photos" :key="photo.uuid">
-        <img :src="`file://${photo.path}`"/>
-      </router-link>
+      <div v-if="photos.length">
+        <router-link :to="`/photo/${photo._id}`" class="photo-grid ma-1" v-for="photo in photos" :key="photo.uuid">
+          <img :src="`file://${photo.path}`"/>
+        </router-link>
+      </div>
+      <div v-else>No photos.</div>
     </v-main>
   </v-app>
 </template>

@@ -12,10 +12,10 @@
       </v-btn>
 
       <v-btn icon :disabled="!photo" @click.stop="drawer = true; drawerType = 'info'">
-        <v-icon>mdi-information</v-icon>
+        <v-icon>mdi-information-outline</v-icon>
       </v-btn>
       <v-btn icon :disabled="!photo" @click.stop="drawer = true; drawerType = 'face'">
-        <v-icon>mdi-account-box</v-icon>
+        <v-icon>mdi-account-circle</v-icon>
       </v-btn>
       <v-btn icon :disabled="!photo" @click.stop="drawer = true; drawerType = 'search'">
         <v-icon>mdi-image-search</v-icon>
@@ -58,7 +58,7 @@
         <photo-info :photo="photo"/>
       </div>
       <div class="drawer-content" v-else-if="drawerType === 'face'">
-        <photo-face :photo="photo"/>
+        <photo-faces :photo="photo"/>
       </div>
       <div class="drawer-content" v-else-if="drawerType === 'search'">
         <photo-search :photo="photo"/>
@@ -71,7 +71,7 @@
     <v-main class=" photo-main ma-4">
 
       <div class="photo-canvas" v-if="photo">
-        <v-img contain width="100%" height="100%" :src="`file://${photo.path}`"></v-img>
+        <img class="photo" :src="`file://${photo.path}`"/>
       </div>
       <div class="photo-canvas" v-else>No photo.</div>
 
@@ -82,14 +82,14 @@
 <script>
 import { ipcRenderer, shell } from 'electron'
 import PhotoInfo from '../components/PhotoInfo'
-import PhotoFace from '../components/PhotoFace'
+import PhotoFaces from '../components/PhotoFaces'
 import PhotoSearch from '../components/PhotoSearch'
 
 export default {
   name: 'Photo',
   components: {
     PhotoInfo,
-    PhotoFace,
+    PhotoFaces,
     PhotoSearch
   },
   data: () => ({
@@ -130,6 +130,10 @@ export default {
   height: calc(100vh - 80px);
   justify-content: center;
   align-items: center;
+}
+.photo-canvas .photo {
+  max-width: 100%;
+  max-height: 100%;
 }
 .drawer-content {
   margin: 64px 16px 16px 16px;
