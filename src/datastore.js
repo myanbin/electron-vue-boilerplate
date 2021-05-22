@@ -60,6 +60,17 @@ const findPhotoById = (query) => {
     })
   })
 }
+const updatePhotoById = (query, data) => {
+  return new Promise((resolve, reject) => {
+    photos.update(query, data, { returnUpdatedDocs: true }, (err, numAffected, affectedDocument, upsert) => {
+      if (err) {
+        reject(err)
+      } else {
+        resolve(affectedDocument)
+      }
+    })
+  })
+}
 
 const insertPhotos = (data) => {
   return new Promise((resolve, reject) => {
@@ -91,6 +102,7 @@ export default {
   updateSettings,
   insertPhotos,
   findPhotos,
+  updatePhotoById,
   removePhotos,
   findPhotoById
 }

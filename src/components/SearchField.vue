@@ -1,7 +1,7 @@
 <template>
   <div class="search-field">
     <v-icon class="search-field-icon">mdi-magnify</v-icon>
-    <input placeholder="搜索照片库" @change="$emit('change', $event.target.value)"/>
+    <input placeholder="搜索照片库" v-bind:value="value" @change="$emit('change', $event.target.value)"/>
     <div class="search-field-notched"></div>
   </div>
 </template>
@@ -9,7 +9,12 @@
 <script>
 
 export default {
-  name: 'SearchField'
+  name: 'SearchField',
+  model: {
+    prop: 'value',
+    event: 'change'
+  },
+  props: ['value']
 }
 </script>
 

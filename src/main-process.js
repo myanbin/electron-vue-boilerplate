@@ -12,7 +12,7 @@ db.settings.findOne({}, (err, doc) => {
       count: 0
     }
     db.settings.insert(defaultSettings, (err, doc) => {
-      // console.log(doc)
+      console.log(doc)
     })
   }
 })
@@ -38,8 +38,10 @@ ipcMain.handle('remove-directory', async (event, path) => {
   return updatedSettings
 })
 
-ipcMain.handle('load-photos', async event => {
-  const photos = await db.findPhotos({})
+ipcMain.handle('load-photos', async (event, keyword) => {
+  const query = keyword ? { 'faces.name': keyword } : {}
+  console.log('load photos', query)
+  const photos = await db.findPhotos(query)
   return photos
 })
 ipcMain.handle('load-photo', async (event, id) => {
@@ -49,6 +51,7 @@ ipcMain.handle('load-photo', async (event, id) => {
 ipcMain.handle('load-photo-faces', async (event, id) => {
   const photo = await db.findPhotoById({ _id: id })
   const base64 = Buffer.from(fs.readFileSync(photo.path), 'binary').toString('base64')
-  const faces = facesRecognitionApi(photo.uuid, base64)
-  return faces
+  const faces = await facesRecognitionApi(photo.uuid, base64)
+  const updatedPhoto = await db.updatePhotoById({ _id: id }, { $set: { faces: faces } })
+  return updatedPhoto.faces
 })

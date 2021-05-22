@@ -7,8 +7,8 @@
       <v-toolbar-title>照片库</v-toolbar-title>
       <v-spacer></v-spacer>
 
-      <search-field @change="search"/>
-      <v-btn icon>
+      <search-field v-model="keyword" @change="search"/>
+      <v-btn icon @click="reload">
         <v-icon>mdi-sync</v-icon>
       </v-btn>
       <v-btn icon @click="$router.push('/settings')">
@@ -38,7 +38,8 @@ export default {
     SearchField
   },
   data: () => ({
-    photos: []
+    photos: [],
+    keyword: ''
   }),
   created () {
     ipcRenderer.invoke('load-photos').then(photos => {
@@ -48,6 +49,15 @@ export default {
   methods: {
     search (value) {
       console.log('search library', value)
+      ipcRenderer.invoke('load-photos', value).then(photos => {
+        this.photos = photos
+      })
+    },
+    reload () {
+      this.keyword = ''
+      ipcRenderer.invoke('load-photos').then(photos => {
+        this.photos = photos
+      })
     }
   }
 }
