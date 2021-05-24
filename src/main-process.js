@@ -39,7 +39,8 @@ ipcMain.handle('remove-directory', async (event, path) => {
 })
 
 ipcMain.handle('load-photos', async (event, keyword) => {
-  const query = keyword ? { 'faces.name': keyword } : {}
+  const re = new RegExp(keyword)
+  const query = keyword ? { 'faces.name': re } : {}
   console.log('load photos', query)
   const photos = await db.findPhotos(query)
   return photos

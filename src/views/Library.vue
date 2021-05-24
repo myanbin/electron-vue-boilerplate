@@ -8,9 +8,6 @@
       <v-spacer></v-spacer>
 
       <search-field v-model="keyword" @change="search"/>
-      <v-btn icon @click="reload">
-        <v-icon>mdi-sync</v-icon>
-      </v-btn>
       <v-btn icon @click="$router.push('/settings')">
         <v-icon>mdi-cog</v-icon>
       </v-btn>
@@ -50,12 +47,6 @@ export default {
     search (value) {
       console.log('search library', value)
       ipcRenderer.invoke('load-photos', value).then(photos => {
-        this.photos = photos
-      })
-    },
-    reload () {
-      this.keyword = ''
-      ipcRenderer.invoke('load-photos').then(photos => {
         this.photos = photos
       })
     }
