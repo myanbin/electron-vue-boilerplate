@@ -52,7 +52,8 @@ export const facesRecognitionApi = async (uuid, base64) => {
     {
       headers: {
         'Authorization': `Bearer ${response_1.data.result.id_token}`
-      }
+      },
+      'maxBodyLength': Infinity
     }
   )
   const faces = response_2.data.result.objects.filter(face => face.name !== 'unknown').map(face => ({ name: face.name, info: face.info, position: face.position }))

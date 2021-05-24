@@ -1,6 +1,6 @@
 <template>
   <v-app>
-    <v-app-bar app color="primary" dark dense>
+    <v-app-bar app color="indigo darken-2" dark dense>
       <v-btn icon @click="$router.push('/')">
         <v-icon>mdi-arrow-left</v-icon>
       </v-btn>
@@ -45,8 +45,8 @@
       </v-menu>
     </v-app-bar>
 
-    <v-navigation-drawer app right permanent width="320" color="grey lighten-4" v-if="drawer">
-      <v-app-bar absolute color="primary" dark dense>
+    <v-navigation-drawer app right permanent width="320" v-if="drawer">
+      <v-app-bar absolute color="indigo darken-2" dark dense>
         <div>{{drawerTitle}}</div>
         <v-spacer></v-spacer>
         <v-btn icon @click.stop="drawer = false">
@@ -136,6 +136,6 @@ export default {
   max-height: 100%;
 }
 .drawer-content {
-  margin: 64px 16px 16px 16px;
+  margin-top: 48px;
 }
 </style>

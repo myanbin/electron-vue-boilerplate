@@ -6,9 +6,14 @@
     </div>
   </div>
   <div v-else>
-    <p v-for="face in faces" :key="face.pid">
-      {{face.name}}<br/>{{face.info}}
-    </p>
+    <v-list three-line>
+      <v-list-item v-for="face in faces" :key="face.pid">
+        <v-list-item-content>
+          <v-list-item-title>{{face.name}}</v-list-item-title>
+          <v-list-item-subtitle>{{face.info}}</v-list-item-subtitle>
+        </v-list-item-content>
+      </v-list-item>
+    </v-list>
   </div>
 </template>
 

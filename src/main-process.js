@@ -7,9 +7,8 @@ db.settings.findOne({}, (err, doc) => {
   console.log('init settings', doc)
   if (doc === null) {
     const defaultSettings = {
-      paths: [],
-      theme: 'light',
-      count: 0
+      sources: [],
+      theme: 'light'
     }
     db.settings.insert(defaultSettings, (err, doc) => {
       console.log(doc)
@@ -19,7 +18,8 @@ db.settings.findOne({}, (err, doc) => {
 
 ipcMain.handle('load-settings', async event => {
   const settings = await db.findSettings({})
-  return settings
+  const nofacesCount = (await db.findPhotos({ faces: { $exists: false } })).length
+  return [settings, nofacesCount]
 })
 ipcMain.handle('open-directory', async event => {
   const result = await dialog.showOpenDialog({
@@ -28,14 +28,16 @@ ipcMain.handle('open-directory', async event => {
   const photos = walkdir(result.filePaths[0])
   const insertedPhotos = await db.insertPhotos(photos)
   console.log('insert photos', insertedPhotos.length)
-  const updatedSettings = await db.updateSettings({}, { $addToSet: { paths: result.filePaths[0] }, $inc: { count: insertedPhotos.length } })
-  return updatedSettings
+  const updatedSettings = await db.updateSettings({}, { $addToSet: { sources: result.filePaths[0] } })
+  const nofacesCount = (await db.findPhotos({ faces: { $exists: false } })).length
+  return [updatedSettings, nofacesCount]
 })
 ipcMain.handle('remove-directory', async (event, path) => {
   const numRemoved = await db.removePhotos({ source: path })
   console.log('remove photos', numRemoved)
-  const updatedSettings = await db.updateSettings({}, { $pull: { paths: path }, $inc: { count: -numRemoved } })
-  return updatedSettings
+  const updatedSettings = await db.updateSettings({}, { $pull: { sources: path } })
+  const nofacesCount = (await db.findPhotos({ faces: { $exists: false } })).length
+  return [updatedSettings, nofacesCount]
 })
 
 ipcMain.handle('load-photos', async (event, keyword) => {
@@ -55,4 +57,16 @@ ipcMain.handle('load-photo-faces', async (event, id) => {
   const faces = await facesRecognitionApi(photo.uuid, base64)
   const updatedPhoto = await db.updatePhotoById({ _id: id }, { $set: { faces: faces } })
   return updatedPhoto.faces
+})
+
+ipcMain.handle('patchadd-photo-faces', async event => {
+  const photos = await db.findPhotos({ faces: { $exists: false } })
+  photos.forEach(async (photo) => {
+    const base64 = Buffer.from(fs.readFileSync(photo.path), 'binary').toString('base64')
+    const faces = await facesRecognitionApi(photo.uuid, base64)
+    console.log(faces)
+    const updatedPhoto = await db.updatePhotoById({ _id: photo._id }, { $set: { faces: faces } })
+    console.log(updatedPhoto)
+  })
+  return photos
 })

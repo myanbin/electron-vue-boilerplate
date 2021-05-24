@@ -1,6 +1,6 @@
 <template>
   <v-app>
-    <v-app-bar app color="primary" dark dense>
+    <v-app-bar app color="indigo darken-2" dark dense>
       <v-btn icon>
         <v-icon>mdi-menu</v-icon>
       </v-btn>
@@ -11,10 +11,12 @@
       <v-btn icon @click="$router.push('/settings')">
         <v-icon>mdi-cog</v-icon>
       </v-btn>
-
     </v-app-bar>
 
     <v-main class="ma-4">
+      <div class="library-options">
+        <v-select solo dense flat hide-details prepend-icon="mdi-sort-variant" :items="viewOptions" item-text="text" item-value="value" v-model="selected"></v-select>
+      </div>
       <div v-if="photos.length">
         <router-link :to="`/photo/${photo._id}`" class="photo-grid ma-1" v-for="photo in photos" :key="photo.uuid">
           <img :src="`file://${photo.path}`"/>
@@ -36,7 +38,12 @@ export default {
   },
   data: () => ({
     photos: [],
-    keyword: ''
+    keyword: '',
+    viewOptions: [
+      { text: '最近添加', value: 'latest' },
+      { text: '拍摄时间', value: 'created' }
+    ],
+    selected: { text: '最近添加', value: 'latest' }
   }),
   created () {
     ipcRenderer.invoke('load-photos').then(photos => {
@@ -55,6 +62,11 @@ export default {
 </script>
 
 <style scoped>
+.library-options {
+  display: flex;
+  width: 160px;
+  margin-bottom: 16px;
+}
 .photo-grid {
   display: inline-block;
   height: 200px;
@@ -63,10 +75,10 @@ export default {
 .photo-grid img {
   height: 200px;
   transform: scale(1);
-  transition: all 1s;
+  transition: ease 0.5s;
 }
 .photo-grid img:hover {
   transform: scale(1.10);
-  transition: all 1s;
+  transition: ease 0.5s;
 }
 </style>
