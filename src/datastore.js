@@ -6,11 +6,13 @@ console.log(app.getPath('userData'))
 
 const settings = new Datasource({
   autoload: true,
+  timestampData: true,
   filename: path.join(app.getPath('userData'), 'settings.db')
 })
 
 const photos = new Datasource({
   autoload: true,
+  timestampData: true,
   filename: path.join(app.getPath('userData'), 'photos.db')
 })
 

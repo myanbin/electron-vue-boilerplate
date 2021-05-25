@@ -32,14 +32,17 @@
         </template>
         <v-list min-width="96" dense>
           <v-list-item @click="() => {}">
-            <v-list-item-title>编辑</v-list-item-title>
+            <v-list-item-title>编辑此照片</v-list-item-title>
+          </v-list-item>
+          <v-list-item @click="() => {}">
+            <v-list-item-title>查看照片实际大小</v-list-item-title>
           </v-list-item>
           <v-list-item @click="openPhotoInFolder">
-            <v-list-item-title>在文件夹中显示</v-list-item-title>
+            <v-list-item-title>打开照片所在位置</v-list-item-title>
           </v-list-item>
           <v-divider></v-divider>
           <v-list-item @click="() => {}">
-            <v-list-item-title>删除</v-list-item-title>
+            <v-list-item-title>删除此照片</v-list-item-title>
           </v-list-item>
         </v-list>
       </v-menu>
@@ -130,8 +133,10 @@ export default {
   height: calc(100vh - 80px);
   justify-content: center;
   align-items: center;
+  overflow: hidden;
 }
-.photo-canvas .photo {
+.photo-canvas img {
+  display: block;
   max-width: 100%;
   max-height: 100%;
 }

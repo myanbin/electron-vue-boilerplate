@@ -1,5 +1,6 @@
 import fs from 'fs'
 import path from 'path'
+import sizeOf from 'image-size'
 import axios from 'axios'
 import qs from 'qs'
 import { v4 as uuidv4 } from 'uuid'
@@ -14,12 +15,14 @@ export const walkdir = directory => {
     if (stat && stat.isDirectory()) {
       files.splice(0, 0, ...walkdir(file))
     } else if (file.match(/[.]jpe?g$/i)) {
+      const dimensions = sizeOf(Buffer.from(fs.readFileSync(file), 'binary'))
       files.push({
         uuid: uuidv4(),
         path: file,
-        file: item,
+        filename: item,
         source: directory,
         size: stat.size,
+        dimensions: dimensions,
         ctime: stat.ctimeMs
       })
     }
