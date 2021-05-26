@@ -71,12 +71,14 @@
       </div>
     </v-navigation-drawer>
 
-    <v-main class=" photo-main ma-4">
+    <v-main class="photo-main ma-4">
 
-      <div class="photo-canvas" v-if="photo">
-        <img class="photo" :src="`file://${photo.path}`"/>
+      <div class="photo-container" v-if="photo">
+        <figure>
+          <img class="photo-image" :src="`file://${photo.path}`"/>
+        </figure>
       </div>
-      <div class="photo-canvas" v-else>No photo.</div>
+      <div class="photo-container" v-else>No photo.</div>
 
     </v-main>
   </v-app>
@@ -128,17 +130,30 @@ export default {
 .photo-main {
   position: relative;
 }
-.photo-canvas {
+.photo-container {
   display: flex;
   height: calc(100vh - 80px);
   justify-content: center;
   align-items: center;
   overflow: hidden;
 }
-.photo-canvas img {
+
+.photo-container figure {
+  display: inline-block;
+  position: relative;
+  max-width: 100%;
+  max-height: calc(100vh - 80px);
+}
+
+.photo-container figure img.photo-image {
   display: block;
   max-width: 100%;
-  max-height: 100%;
+  max-height: inherit;
+}
+.photo-container figure .face-rectangle {
+  position: absolute;
+  border: 2px solid;
+  z-index: 99;
 }
 .drawer-content {
   margin-top: 48px;

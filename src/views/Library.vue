@@ -7,7 +7,7 @@
       <v-toolbar-title>照片库</v-toolbar-title>
       <v-spacer></v-spacer>
 
-      <search-field v-model="keyword" @change="search"/>
+      <search-field v-model="keyword" @change="handleSearch"/>
       <v-btn icon @click="$router.push('/settings')">
         <v-icon>mdi-cog</v-icon>
       </v-btn>
@@ -15,7 +15,7 @@
 
     <v-main class="ma-4">
       <div class="library-options">
-        <v-select solo dense flat hide-details prepend-icon="mdi-sort-variant" :items="viewOptions" item-text="text" item-value="value" v-model="selected" @change="sort"></v-select>
+        <v-select solo dense flat hide-details prepend-icon="mdi-image-multiple" :items="viewOptions" item-text="text" item-value="value" v-model="selected" @change="handleFilter"></v-select>
       </div>
       <div v-if="photos.length">
         <router-link :to="`/photo/${photo._id}`" class="photo-grid ma-1" v-for="photo in photos" :key="photo.uuid">
@@ -51,13 +51,12 @@ export default {
     })
   },
   methods: {
-    search (value) {
-      console.log('search library', value)
+    handleSearch (value) {
       ipcRenderer.invoke('load-photos', value).then(photos => {
         this.photos = photos
       })
     },
-    sort (value) {
+    handleFilter (value) {
       console.log(value)
     }
   }
