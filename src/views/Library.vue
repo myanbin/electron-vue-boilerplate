@@ -7,7 +7,7 @@
       <v-toolbar-title>照片库</v-toolbar-title>
       <v-spacer></v-spacer>
 
-      <search-field v-model="keyword" @change="handleSearch"/>
+      <search-field v-model="keyword" @change="search"/>
       <v-btn icon @click="$router.push('/settings')">
         <v-icon>mdi-cog</v-icon>
       </v-btn>
@@ -16,7 +16,18 @@
     <v-main class="ma-4">
       <v-alert dense outlined icon="mdi-broadcast" class="text-body-2">欢迎使用照片库应用</v-alert>
       <div class="library-options">
-        <v-select solo dense flat hide-details prepend-icon="mdi-image-multiple" :items="viewOptions" item-text="text" item-value="value" v-model="selected" @change="handleFilter"></v-select>
+        <div class="order-field text-body-2">
+          <v-select solo dense flat hide-details prepend-icon="mdi-image-multiple" :items="viewOptions" item-text="text" item-value="value" v-model="selected" @change="reorder"></v-select>
+        </div>
+        <v-spacer></v-spacer>
+        <v-btn-toggle dense flat borderless v-model="viewLayout">
+          <v-btn icon value="flow">
+            <v-icon>mdi-view-compact</v-icon>
+          </v-btn>
+          <v-btn icon value="grid">
+            <v-icon>mdi-view-module</v-icon>
+          </v-btn>
+        </v-btn-toggle>
       </div>
       <div v-if="photos.length">
         <router-link :to="`/photo/${photo._id}`" class="photo-grid ma-1" v-for="photo in photos" :key="photo.uuid">
@@ -44,7 +55,8 @@ export default {
       { text: '最近添加', value: 'latest' },
       { text: '拍摄时间', value: 'created' }
     ],
-    selected: { text: '最近添加', value: 'latest' }
+    selected: { text: '最近添加', value: 'latest' },
+    viewLayout: 'flow'
   }),
   created () {
     ipcRenderer.invoke('load-photos').then(photos => {
@@ -52,12 +64,12 @@ export default {
     })
   },
   methods: {
-    handleSearch (value) {
+    search (value) {
       ipcRenderer.invoke('load-photos', value).then(photos => {
         this.photos = photos
       })
     },
-    handleFilter (value) {
+    reorder (value) {
       console.log(value)
     }
   }
@@ -67,8 +79,10 @@ export default {
 <style scoped>
 .library-options {
   display: flex;
-  width: 160px;
   margin-bottom: 16px;
+}
+.library-options .order-field {
+  width: 160px;
 }
 .photo-grid {
   display: inline-block;
