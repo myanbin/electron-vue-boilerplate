@@ -14,6 +14,7 @@
     </v-app-bar>
 
     <v-main class="ma-4">
+      <v-alert dense outlined icon="mdi-broadcast" class="text-body-2">欢迎使用照片库应用</v-alert>
       <div class="library-options">
         <v-select solo dense flat hide-details prepend-icon="mdi-image-multiple" :items="viewOptions" item-text="text" item-value="value" v-model="selected" @change="handleFilter"></v-select>
       </div>

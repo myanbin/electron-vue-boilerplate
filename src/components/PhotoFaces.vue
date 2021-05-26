@@ -44,7 +44,7 @@ export default {
       el.style.width = `${(x2 - x1) / this.$props.photo.dimensions.width * 100}%`
       el.style.height = `${(y2 - y1) / this.$props.photo.dimensions.height * 100}%`
       el.style.position = 'absolute'
-      el.style.border = '2px solid #303f9f'
+      el.style.border = '2px solid #2196F3'
       el.style.zIndex = 99
       el.title = face.name
       document.querySelector('.photo-container figure').append(el)

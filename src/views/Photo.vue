@@ -4,7 +4,7 @@
       <v-btn icon @click="$router.push('/')">
         <v-icon>mdi-arrow-left</v-icon>
       </v-btn>
-      <v-toolbar-title>照片 {{$route.params.id}}</v-toolbar-title>
+      <v-toolbar-title>照片</v-toolbar-title>
       <v-spacer></v-spacer>
 
       <v-btn icon :disabled="!photo">
@@ -73,7 +73,7 @@
 
     <v-main class="photo-main ma-4">
 
-      <div class="photo-container" v-if="photo">
+      <div class="photo-container" v-if="photo" @mousewheel="handleZoom">
         <figure>
           <img class="photo-image" :src="`file://${photo.path}`"/>
         </figure>
@@ -100,7 +100,8 @@ export default {
   data: () => ({
     drawer: false,
     drawerType: '',
-    photo: null
+    photo: null,
+    zoomValue: 1
   }),
   computed: {
     drawerTitle () {
@@ -121,6 +122,17 @@ export default {
   methods: {
     openPhotoInFolder () {
       shell.showItemInFolder(this.photo.path)
+    },
+    handleZoom (event) {
+      this.zoomValue += event.wheelDelta / 1200
+      // 设置放大的最大倍数和最小倍数
+      if (this.zoomValue >= 10) {
+        this.zoomValue = 10
+      } else if (this.zoomValue < 0.2) {
+        this.zoomValue = 0.2
+      }
+      console.log(this.zoomValue)
+      document.querySelector('.photo-container figure').style.transform = `scale(${this.zoomValue})`
     }
   }
 }
