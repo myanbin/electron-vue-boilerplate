@@ -54,7 +54,7 @@
       <p>在使用本应用中，您有什么感受或者想法，都可以给作者发送反馈。您可以发送邮件到 mayanbin@xinhua.org 或通过蓝信联系 <u>马艳彬</u>。<br/>您的反馈对我们非常重要。</p>
 
       <h5 class="text-h5 mb-4">关于照片库</h5>
-      <p>版本 {{appVersion}}<br/>构建时间 2021-05-27 14:35:23<br/>新华社技术局 版权所有</p>
+      <p>版本 {{appVersion}}<br/>构建日期 2021-05-27 14:35:23<br/>新华社技术局 版权所有</p>
 
     </v-main>
   </v-app>
@@ -79,8 +79,10 @@ export default {
   methods: {
     addFolder () {
       ipcRenderer.invoke('open-directory').then(data => {
-        [this.settings, this.nofacesCount] = data
-        const notification = new Notification('Hi there!')
+        this.settings = data[0]
+        this.nofacesCount += data[1]
+
+        const notification = new Notification(`库中新增 ${data[1]} 张照片`)
         notification.onclick = () => {
           console.log('aaa')
         }
@@ -91,7 +93,8 @@ export default {
     },
     deleteFolder (path) {
       ipcRenderer.invoke('remove-directory', path).then(data => {
-        [this.settings, this.nofacesCount] = data
+        this.settings = data[0]
+        this.nofacesCount -= data[1]
       })
     },
     changeTheme () {

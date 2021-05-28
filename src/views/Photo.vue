@@ -131,7 +131,6 @@ export default {
       } else if (this.zoomValue < 0.2) {
         this.zoomValue = 0.2
       }
-      console.log(this.zoomValue)
       document.querySelector('.photo-container figure').style.transform = `scale(${this.zoomValue})`
     }
   }
@@ -148,6 +147,7 @@ export default {
   justify-content: center;
   align-items: center;
   overflow: hidden;
+  position: relative;
 }
 
 .photo-container figure {

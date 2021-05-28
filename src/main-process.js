@@ -29,15 +29,13 @@ ipcMain.handle('open-directory', async event => {
   const insertedPhotos = await db.insertPhotos(photos)
   console.log('insert photos', insertedPhotos.length)
   const updatedSettings = await db.updateSettings({}, { $addToSet: { sources: result.filePaths[0] } })
-  const nofacesCount = (await db.findPhotos({ faces: { $exists: false } })).length
-  return [updatedSettings, nofacesCount]
+  return [updatedSettings, insertedPhotos.length]
 })
 ipcMain.handle('remove-directory', async (event, path) => {
   const numRemoved = await db.removePhotos({ source: path })
   console.log('remove photos', numRemoved)
   const updatedSettings = await db.updateSettings({}, { $pull: { sources: path } })
-  const nofacesCount = (await db.findPhotos({ faces: { $exists: false } })).length
-  return [updatedSettings, nofacesCount]
+  return [updatedSettings, numRemoved]
 })
 
 ipcMain.handle('load-photos', async (event, keyword) => {

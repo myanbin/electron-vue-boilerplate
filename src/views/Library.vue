@@ -15,12 +15,12 @@
 
     <v-main class="ma-4">
       <v-alert dense outlined icon="mdi-broadcast" class="text-body-2">欢迎使用照片库应用</v-alert>
-      <div class="library-options">
-        <div class="order-field text-body-2">
-          <v-select solo dense flat hide-details prepend-icon="mdi-image-multiple" :items="viewOptions" item-text="text" item-value="value" v-model="selected" @change="reorder"></v-select>
+      <div class="library-options" v-if="photos.length">
+        <div class="order-field">
+          <v-select solo dense flat hide-details prepend-icon="mdi-image-multiple" :items="viewOptions" item-text="text" item-value="value" v-model="selected" class="text-body-2" @change="reorder"></v-select>
         </div>
         <v-spacer></v-spacer>
-        <v-btn-toggle dense flat borderless v-model="viewLayout">
+        <v-btn-toggle mandatory dense flat borderless v-model="viewLayout">
           <v-btn icon value="flow">
             <v-icon>mdi-view-compact</v-icon>
           </v-btn>
@@ -29,12 +29,18 @@
           </v-btn>
         </v-btn-toggle>
       </div>
-      <div v-if="photos.length">
-        <router-link :to="`/photo/${photo._id}`" class="photo-grid ma-1" v-for="photo in photos" :key="photo.uuid">
+      <div v-if="photos.length === 0">No photos.</div>
+      <div class="flow-view" v-else-if="viewLayout === 'flow'">
+        <router-link :to="`/photo/${photo._id}`" class="photo-item ma-1" v-for="photo in photos" :key="photo.uuid">
           <img :src="`file://${photo.path}`"/>
         </router-link>
       </div>
-      <div v-else>No photos.</div>
+      <div class="grid-view" v-else-if="viewLayout === 'grid'">
+        <router-link :to="`/photo/${photo._id}`" class="photo-item ma-1" v-for="photo in photos" :key="photo.uuid">
+          <img :src="`file://${photo.path}`"/>
+          <div class="faces" v-if="photo.faces && photo.faces.length > 0">{{photo.faces.map(f => f.name).join(' ')}}</div>
+        </router-link>
+      </div>
     </v-main>
   </v-app>
 </template>
@@ -56,7 +62,7 @@ export default {
       { text: '拍摄时间', value: 'created' }
     ],
     selected: { text: '最近添加', value: 'latest' },
-    viewLayout: 'flow'
+    viewLayout: 'grid'
   }),
   created () {
     ipcRenderer.invoke('load-photos').then(photos => {
@@ -79,23 +85,52 @@ export default {
 <style scoped>
 .library-options {
   display: flex;
-  margin-bottom: 16px;
+  margin-bottom: 8px;
 }
 .library-options .order-field {
-  width: 160px;
+  width: 152px;
 }
-.photo-grid {
+.photo-item {
   display: inline-block;
   height: 200px;
   overflow: hidden;
+  position: relative;
 }
-.photo-grid img {
+.photo-item img {
   height: 200px;
   transform: scale(1);
   transition: ease 0.5s;
 }
-.photo-grid img:hover {
+.photo-item img:hover {
   transform: scale(1.10);
   transition: ease 0.5s;
+}
+.photo-item .faces {
+  position: absolute;
+  height: 20px;
+  bottom: 0;
+  line-height: 20px;
+  width: 100%;
+  font-size: 12px;
+  padding: 0 4px;
+  background-color: rgba(0, 0, 0, 0.3);
+  color: #fff;
+}
+/* 流式布局 */
+.flow-view {
+  display: block;
+  line-height: 0;
+}
+/* 网格布局 */
+.grid-view {
+  display: block;
+  line-height: 0;
+}
+.grid-view .photo-item {
+  width: 200px;
+}
+.grid-view .photo-item img {
+  width: 200px;
+  object-fit: cover;
 }
 </style>
