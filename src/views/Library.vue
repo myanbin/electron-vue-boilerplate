@@ -1,6 +1,6 @@
 <template>
   <v-app>
-    <v-app-bar app color="indigo darken-2" dark dense>
+    <v-app-bar app color="indigo darken-2" dark dense clipped-left>
       <v-btn icon>
         <v-icon>mdi-menu</v-icon>
       </v-btn>
@@ -8,16 +8,53 @@
       <v-spacer></v-spacer>
 
       <search-field v-model="keyword" @change="search"/>
-      <v-btn icon @click="$router.push('/settings')">
+      <v-btn icon @click="$router.push('/settings')" title="打开设置">
         <v-icon>mdi-cog</v-icon>
       </v-btn>
     </v-app-bar>
 
+    <v-navigation-drawer app mini-variant permanent class="app-nav">
+      <v-list dense nav>
+        <v-list-item link>
+          <v-list-item-icon>
+            <v-icon>mdi-image</v-icon>
+          </v-list-item-icon>
+          <v-list-item-content>
+            <v-list-item-title>照片</v-list-item-title>
+          </v-list-item-content>
+        </v-list-item>
+        <v-list-item link>
+          <v-list-item-icon>
+            <v-icon>mdi-account-multiple</v-icon>
+          </v-list-item-icon>
+          <v-list-item-content>
+            <v-list-item-title>人物</v-list-item-title>
+          </v-list-item-content>
+        </v-list-item>
+        <v-list-item link>
+          <v-list-item-icon>
+            <v-icon>mdi-map-marker</v-icon>
+          </v-list-item-icon>
+          <v-list-item-content>
+            <v-list-item-title>位置</v-list-item-title>
+          </v-list-item-content>
+        </v-list-item>
+        <v-list-item link>
+          <v-list-item-icon>
+            <v-icon>mdi-heart</v-icon>
+          </v-list-item-icon>
+          <v-list-item-content>
+            <v-list-item-title>收藏</v-list-item-title>
+          </v-list-item-content>
+        </v-list-item>
+      </v-list>
+    </v-navigation-drawer>
+
     <v-main class="ma-4">
-      <v-alert dense outlined icon="mdi-broadcast" class="text-body-2">欢迎使用照片库应用</v-alert>
+      <v-alert dense outlined icon="mdi-broadcast" class="text-body-2" v-if="broadcast.length">欢迎使用照片库应用</v-alert>
       <div class="library-options" v-if="photos.length">
         <div class="order-field">
-          <v-select solo dense flat hide-details prepend-icon="mdi-image-multiple" :items="viewOptions" item-text="text" item-value="value" v-model="selected" class="text-body-2" @change="reorder"></v-select>
+          <v-select solo dense flat hide-details :items="viewOptions" item-text="text" item-value="value" v-model="selected" class="text-body-2" @change="reorder"></v-select>
         </div>
         <v-spacer></v-spacer>
         <v-btn-toggle mandatory dense flat borderless v-model="viewLayout">
@@ -55,6 +92,7 @@ export default {
     SearchField
   },
   data: () => ({
+    broadcast: '',
     photos: [],
     keyword: '',
     viewOptions: [
@@ -83,12 +121,15 @@ export default {
 </script>
 
 <style scoped>
+.app-nav {
+  margin-top: 48px;
+}
 .library-options {
   display: flex;
   margin-bottom: 8px;
 }
 .library-options .order-field {
-  width: 152px;
+  width: 120px;
 }
 .photo-item {
   display: inline-block;

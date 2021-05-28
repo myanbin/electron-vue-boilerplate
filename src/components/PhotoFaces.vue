@@ -36,6 +36,7 @@ export default {
   },
   methods: {
     showFaceRectangle (face) {
+      document.querySelectorAll('.photo-container figure div').forEach(el => { el.style.border = '2px solid #757575' })
       const [x1, y1, x2, y2] = face.position
       // 使用相对数值计算人脸位置，适配图像缩放问题
       const el = document.createElement('div')

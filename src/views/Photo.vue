@@ -1,7 +1,7 @@
 <template>
   <v-app>
     <v-app-bar app color="indigo darken-2" dark dense>
-      <v-btn icon @click="$router.push('/')">
+      <v-btn icon @click="$router.push('/')" title="返回照片库">
         <v-icon>mdi-arrow-left</v-icon>
       </v-btn>
       <v-toolbar-title>照片</v-toolbar-title>
@@ -11,16 +11,16 @@
         <v-icon color="red">mdi-heart</v-icon>
       </v-btn>
 
-      <v-btn icon :disabled="!photo" @click.stop="drawer = true; drawerType = 'info'">
+      <v-btn icon :disabled="!photo" @click.stop="drawer = true; drawerType = 'info'" title="照片信息">
         <v-icon>mdi-information-outline</v-icon>
       </v-btn>
-      <v-btn icon :disabled="!photo" @click.stop="drawer = true; drawerType = 'face'">
-        <v-icon>mdi-account-circle</v-icon>
+      <v-btn icon :disabled="!photo" @click.stop="drawer = true; drawerType = 'face'" title="人脸识别">
+        <v-icon>mdi-face</v-icon>
       </v-btn>
-      <v-btn icon :disabled="!photo" @click.stop="drawer = true; drawerType = 'search'">
+      <v-btn icon :disabled="!photo" @click.stop="drawer = true; drawerType = 'search'" title="以图搜图">
         <v-icon>mdi-image-search</v-icon>
       </v-btn>
-      <v-btn icon :disabled="!photo" @click.stop="drawer = true; drawerType = 'tags'">
+      <v-btn icon :disabled="!photo" @click.stop="drawer = true; drawerType = 'tags'" title="智能标签">
         <v-icon>mdi-tag-multiple</v-icon>
       </v-btn>
 
