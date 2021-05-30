@@ -7,7 +7,11 @@
   </div>
   <div v-else>
     <v-list two-line>
+      <v-subheader>检测到 {{faces.length}} 个人脸</v-subheader>
       <v-list-item v-for="face in faces" :key="face.name" @click="showFaceRectangle(face)">
+        <v-list-item-avatar tile>
+          <v-img :src="face.avatar"></v-img>
+        </v-list-item-avatar>
         <v-list-item-content :title="`${face.name} - ${face.info}`">
           <v-list-item-title>{{face.name}}</v-list-item-title>
           <v-list-item-subtitle>{{face.info}}</v-list-item-subtitle>
