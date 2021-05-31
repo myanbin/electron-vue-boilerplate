@@ -17,7 +17,7 @@ db.settings.findOne({}, (err, doc) => {
 })
 
 ipcMain.handle('load-settings', async event => {
-  const settings = await db.findSettings({})
+  const settings = await db.findSettings()
   const nofacesCount = (await db.findPhotos({ faces: { $exists: false } })).length
   return [settings, nofacesCount]
 })
@@ -70,4 +70,28 @@ ipcMain.handle('update-photo', async (event, id, body) => {
   const updatedPhoto = await db.updatePhotoById({ _id: id }, body)
   console.log(updatedPhoto)
   return updatedPhoto
+})
+
+ipcMain.handle('load-peoples', async event => {
+  const photos = await db.findPhotos()
+  const peoples = []
+  photos.forEach(photo => {
+    if (photo.faces && photo.faces.length > 0) {
+      photo.faces.forEach(face => {
+        const idx = peoples.findIndex(item => item.name === face.name)
+        if (idx === -1) {
+          peoples.push({
+            name: face.name,
+            info: face.info,
+            avatar: face.avatar,
+            photos: [photo]
+          })
+        } else {
+          peoples[idx].photos.push(photo)
+        }
+      })
+    }
+  })
+  console.log(peoples)
+  return peoples
 })

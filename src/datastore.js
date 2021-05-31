@@ -16,7 +16,7 @@ const photos = new Datasource({
   filename: path.join(app.getPath('userData'), 'photos.db')
 })
 
-const findSettings = (query) => {
+const findSettings = (query = {}) => {
   return new Promise((resolve, reject) => {
     settings.findOne(query, (err, doc) => {
       if (err) {
@@ -40,7 +40,7 @@ const updateSettings = (query, data) => {
   })
 }
 
-const findPhotos = (query) => {
+const findPhotos = (query = {}) => {
   return new Promise((resolve, reject) => {
     photos.find(query, (err, docs) => {
       if (err) {

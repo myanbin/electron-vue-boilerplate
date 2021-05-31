@@ -1,6 +1,7 @@
 <template>
   <div>
-    <div class="grid-view">
+    <div v-if="photos.length === 0">暂无收藏的照片</div>
+    <div class="grid-view" v-else>
       <router-link :to="`/view/${photo._id}`" class="photo-item ma-1" v-for="photo in photos" :key="photo.uuid">
         <img :src="`file://${photo.path}`"/>
       </router-link>

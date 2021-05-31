@@ -1,7 +1,7 @@
 <template>
   <v-app>
     <v-app-bar app color="indigo darken-2" dark dense>
-      <v-btn icon @click="$router.push('/')" title="返回照片库">
+      <v-btn icon @click="$router.go(-1)" title="返回照片库">
         <v-icon>mdi-arrow-left</v-icon>
       </v-btn>
       <v-toolbar-title>照片</v-toolbar-title>
