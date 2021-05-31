@@ -23,7 +23,7 @@ export const walkdir = directory => {
         source: directory,
         size: stat.size,
         dimensions: dimensions,
-        ctime: stat.ctimeMs
+        favorited: false
       })
     }
   })

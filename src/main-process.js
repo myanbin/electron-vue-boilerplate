@@ -38,10 +38,7 @@ ipcMain.handle('remove-directory', async (event, path) => {
   return [updatedSettings, numRemoved]
 })
 
-ipcMain.handle('load-photos', async (event, keyword) => {
-  const re = new RegExp(keyword)
-  const query = keyword ? { 'faces.name': re } : {}
-  console.log('load photos', query)
+ipcMain.handle('load-photos', async (event, query) => {
   const photos = await db.findPhotos(query)
   return photos
 })
@@ -67,4 +64,10 @@ ipcMain.handle('patchadd-photo-faces', async event => {
     console.log(updatedPhoto)
   })
   return photos
+})
+
+ipcMain.handle('update-photo', async (event, id, body) => {
+  const updatedPhoto = await db.updatePhotoById({ _id: id }, body)
+  console.log(updatedPhoto)
+  return updatedPhoto
 })

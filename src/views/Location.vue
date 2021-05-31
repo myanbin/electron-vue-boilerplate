@@ -1,6 +1,6 @@
 <template>
   <div>
-    Location
+    即将推出
   </div>
 </template>
 

@@ -1,8 +1,9 @@
 <template>
   <div class="people">
     <v-slide-group mandatory center-active v-model="model">
-      <v-slide-item v-for="n in 15" :key="n" v-slot:default="{ active, toggle }">
-        <v-card :color="active ? 'primary' : 'grey lighten-1'" class="ma-2" height="64" width="64" @click="toggle">
+      <v-slide-item v-for="n in 9" :key="n" v-slot:default="{ active, toggle }">
+        <v-card :color="active ? 'primary' : 'grey lighten-1'" class="ma-2 pa-2 d-flex align-center justify-center" height="96" width="96" @click="toggle">
+          <span class="face-name">习近平习</span>
         </v-card>
       </v-slide-item>
     </v-slide-group>
@@ -21,4 +22,7 @@ export default {
 </script>
 
 <style scoped>
+.v-slide-item--active span.face-name {
+  color: white;
+}
 </style>

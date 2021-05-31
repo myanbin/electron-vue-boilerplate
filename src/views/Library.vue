@@ -15,7 +15,7 @@
 
     <v-navigation-drawer app mini-variant permanent class="app-nav">
       <v-list dense nav>
-        <v-list-item link to="/">
+        <v-list-item link to="/" title="照片库">
           <v-list-item-icon>
             <v-icon>mdi-image</v-icon>
           </v-list-item-icon>
@@ -23,7 +23,7 @@
             <v-list-item-title>照片</v-list-item-title>
           </v-list-item-content>
         </v-list-item>
-        <v-list-item link to="/people">
+        <v-list-item link to="/people" title="人物">
           <v-list-item-icon>
             <v-icon>mdi-account-multiple</v-icon>
           </v-list-item-icon>
@@ -31,7 +31,7 @@
             <v-list-item-title>人物</v-list-item-title>
           </v-list-item-content>
         </v-list-item>
-        <v-list-item link to="/location">
+        <v-list-item link to="/location" title="位置">
           <v-list-item-icon>
             <v-icon>mdi-map-marker</v-icon>
           </v-list-item-icon>
@@ -39,7 +39,7 @@
             <v-list-item-title>位置</v-list-item-title>
           </v-list-item-content>
         </v-list-item>
-        <v-list-item link to="/favorites">
+        <v-list-item link to="/favorites" title="收藏">
           <v-list-item-icon>
             <v-icon>mdi-heart</v-icon>
           </v-list-item-icon>
@@ -70,7 +70,9 @@ export default {
   }),
   methods: {
     search (value) {
-      ipcRenderer.invoke('load-photos', value).then(photos => {
+      const re = new RegExp(value)
+      const query = value ? { 'faces.name': re } : {}
+      ipcRenderer.invoke('load-photos', query).then(photos => {
         this.photos = photos
       })
     }

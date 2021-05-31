@@ -49,16 +49,9 @@ export default {
   created () {
     ipcRenderer.invoke('load-photos').then(photos => {
       this.photos = photos
-      console.log(photos)
     })
-    console.log(this.$route)
   },
   methods: {
-    search (value) {
-      ipcRenderer.invoke('load-photos', value).then(photos => {
-        this.photos = photos
-      })
-    },
     reorder (value) {
       console.log(value)
     }

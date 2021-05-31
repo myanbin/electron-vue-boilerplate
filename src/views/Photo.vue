@@ -7,20 +7,20 @@
       <v-toolbar-title>照片</v-toolbar-title>
       <v-spacer></v-spacer>
 
-      <v-btn icon :disabled="!photo">
-        <v-icon color="red">mdi-heart</v-icon>
+      <v-btn icon v-if="photo" @click.stop="handleFavorite">
+        <v-icon :color="photo.favorited ? 'red' : ''">mdi-heart</v-icon>
       </v-btn>
 
-      <v-btn icon :disabled="!photo" @click.stop="drawer = true; drawerType = 'info'" title="照片信息">
+      <v-btn icon v-if="photo" @click.stop="drawer = true; drawerType = 'info'" title="照片信息">
         <v-icon>mdi-information-outline</v-icon>
       </v-btn>
-      <v-btn icon :disabled="!photo" @click.stop="drawer = true; drawerType = 'face'" title="人脸识别">
+      <v-btn icon v-if="photo" @click.stop="drawer = true; drawerType = 'face'" title="人脸识别">
         <v-icon>mdi-face</v-icon>
       </v-btn>
-      <v-btn icon :disabled="!photo" @click.stop="drawer = true; drawerType = 'search'" title="以图搜图">
+      <v-btn icon v-if="photo" @click.stop="drawer = true; drawerType = 'search'" title="以图搜图">
         <v-icon>mdi-image-search</v-icon>
       </v-btn>
-      <v-btn icon :disabled="!photo" @click.stop="drawer = true; drawerType = 'tags'" title="智能标签">
+      <v-btn icon v-if="photo" @click.stop="drawer = true; drawerType = 'tags'" title="智能标签">
         <v-icon>mdi-tag-multiple</v-icon>
       </v-btn>
 
@@ -132,6 +132,14 @@ export default {
         this.zoomValue = 0.2
       }
       document.querySelector('.photo-container figure').style.transform = `scale(${this.zoomValue})`
+    },
+    handleFavorite () {
+      const body = {
+        $set: { favorited: !this.photo.favorited }
+      }
+      ipcRenderer.invoke('update-photo', this.$route.params.id, body).then(photo => {
+        this.photo = photo
+      })
     }
   }
 }
