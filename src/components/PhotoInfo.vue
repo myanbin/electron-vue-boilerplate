@@ -16,7 +16,7 @@
       </v-list-item>
       <v-list-item @click="() => {}">
         <v-list-item-content>
-          <v-list-item-subtitle>尺寸</v-list-item-subtitle>
+          <v-list-item-subtitle>照片尺寸</v-list-item-subtitle>
           <v-list-item-title>{{$props.photo.dimensions.width}} x {{$props.photo.dimensions.height}}</v-list-item-title>
         </v-list-item-content>
       </v-list-item>
@@ -30,8 +30,14 @@
       </v-list-item>
       <v-list-item @click="() => {}">
         <v-list-item-content>
-          <v-list-item-subtitle>镜头型号</v-list-item-subtitle>
+          <v-list-item-subtitle>镜头参数</v-list-item-subtitle>
           <v-list-item-title>{{exif.LensModel}}</v-list-item-title>
+        </v-list-item-content>
+      </v-list-item>
+      <v-list-item @click="() => {}">
+        <v-list-item-content>
+          <v-list-item-subtitle>拍摄时间</v-list-item-subtitle>
+          <v-list-item-title>{{dayjs(exif.CreateDate).format('YYYY-MM-DD HH:mm:ss')}}</v-list-item-title>
         </v-list-item-content>
       </v-list-item>
       <v-list-item @click="() => {}">
