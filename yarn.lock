@@ -4380,6 +4380,11 @@ execa@^5.0.0:
     signal-exit "^3.0.3"
     strip-final-newline "^2.0.0"
 
+exifr@^7.0.0:
+  version "7.0.0"
+  resolved "https://registry.nlark.com/exifr/download/exifr-7.0.0.tgz#065d54639f2999ac901dd8475db99b4d3f31f11e"
+  integrity sha1-Bl1UY58pmayQHdhHXbmbTT8x8R4=
+
 expand-brackets@^2.1.4:
   version "2.1.4"
   resolved "https://registry.nlark.com/expand-brackets/download/expand-brackets-2.1.4.tgz#b77735e315ce30f6b6eff0f83b04151a22449622"

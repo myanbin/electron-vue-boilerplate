@@ -1,6 +1,6 @@
 <template>
   <div>
-    <v-alert dense outlined icon="mdi-broadcast" class="text-body-2" v-if="broadcast.length">欢迎使用照片库应用</v-alert>
+    <v-alert dense outlined icon="mdi-broadcast" class="text-body-2" v-if="broadcast.length">{{broadcast}}</v-alert>
     <div class="library-options" v-if="photos.length">
       <div class="order-field">
         <v-select solo dense flat hide-details :items="viewOptions" item-text="text" item-value="value" v-model="selected" class="text-body-2" @change="reorder"></v-select>
@@ -36,7 +36,7 @@ import { ipcRenderer } from 'electron'
 export default {
   name: 'Photos',
   data: () => ({
-    broadcast: '',
+    broadcast: '欢迎国内部的各位老师试用智能照片库，如有新的功能需求或者意见建议，请向作者进行反馈。',
     photos: [],
     keyword: '',
     viewOptions: [

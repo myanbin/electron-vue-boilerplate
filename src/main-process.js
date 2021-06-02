@@ -1,5 +1,6 @@
 import { ipcMain, dialog } from 'electron'
 import fs from 'fs'
+import exifr from 'exifr'
 import db from './datastore'
 import { walkdir, facesRecognitionApi } from './utils'
 
@@ -46,6 +47,20 @@ ipcMain.handle('load-photo', async (event, id) => {
   const photo = await db.findPhotoById({ _id: id })
   return photo
 })
+
+/**
+ * 获取照片的 Exif 信息
+ */
+ipcMain.handle('load-photo-exif', async (event, id) => {
+  const photo = await db.findPhotoById({ _id: id })
+  const exif = await exifr.parse(photo.path)
+  console.log(exif)
+  return exif
+})
+
+/**
+ * 获取照片中人脸信息（通过人脸识别 API）
+ */
 ipcMain.handle('load-photo-faces', async (event, id) => {
   const photo = await db.findPhotoById({ _id: id })
   const base64 = Buffer.from(fs.readFileSync(photo.path), 'binary').toString('base64')
