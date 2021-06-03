@@ -38,11 +38,16 @@ ipcMain.handle('remove-directory', async (event, path) => {
   const updatedSettings = await db.updateSettings({}, { $pull: { sources: path } })
   return [updatedSettings, numRemoved]
 })
-
+/**
+ * 获取所有照片信息，可输入查询条件
+ */
 ipcMain.handle('load-photos', async (event, query) => {
   const photos = await db.findPhotos(query)
   return photos
 })
+/**
+ * 加载单个照片
+ */
 ipcMain.handle('load-photo', async (event, id) => {
   const photo = await db.findPhotoById({ _id: id })
   return photo
@@ -69,6 +74,9 @@ ipcMain.handle('load-photo-faces', async (event, id) => {
   return updatedPhoto.faces
 })
 
+/**
+ * 批量添加照片的人脸信息
+ */
 ipcMain.handle('patchadd-photo-faces', async event => {
   const photos = await db.findPhotos({ faces: { $exists: false } })
   photos.forEach(async (photo) => {
@@ -87,6 +95,9 @@ ipcMain.handle('update-photo', async (event, id, body) => {
   return updatedPhoto
 })
 
+/**
+ * 从数据库中计算人物列表
+ */
 ipcMain.handle('load-peoples', async event => {
   const photos = await db.findPhotos()
   const peoples = []

@@ -15,7 +15,7 @@
         </v-btn>
       </v-btn-toggle>
     </div>
-    <div v-if="photos.length === 0">No photos.</div>
+    <div v-if="photos.length === 0">库中暂无照片，请从设置页面中添加。</div>
     <div class="flow-view" v-else-if="viewLayout === 'flow'">
       <router-link :to="`/view/${photo._id}`" class="photo-item ma-1" v-for="photo in photos" :key="photo.uuid">
         <img :src="`file://${photo.path}`"/>
@@ -36,7 +36,7 @@ import { ipcRenderer } from 'electron'
 export default {
   name: 'Photos',
   data: () => ({
-    broadcast: '欢迎国内部的各位老师试用智能照片库，如有新的功能需求或者意见建议，请向作者进行反馈。',
+    broadcast: '欢迎各位老师试用智能照片库，如有新的功能需求或者意见建议，请向作者进行反馈。',
     photos: [],
     keyword: '',
     viewOptions: [
