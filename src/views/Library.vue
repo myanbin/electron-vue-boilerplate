@@ -11,6 +11,9 @@
       <v-btn icon @click="$router.push('/settings')" title="打开设置">
         <v-icon>mdi-cog</v-icon>
       </v-btn>
+      <v-btn icon @click="$router.push('/login')">
+        <v-icon>mdi-account</v-icon>
+      </v-btn>
     </v-app-bar>
 
     <v-navigation-drawer app mini-variant permanent class="app-nav">

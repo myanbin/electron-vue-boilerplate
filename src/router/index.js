@@ -6,6 +6,7 @@ import Photos from '../views/Photos.vue'
 import Location from '../views/Location.vue'
 import Favorites from '../views/Favorites.vue'
 import Settings from '../views/Settings.vue'
+import Login from '../views/Login.vue'
 import Photo from '../views/Photo.vue'
 
 Vue.use(VueRouter)
@@ -44,6 +45,10 @@ const routes = [
   {
     path: '/view/:id',
     component: Photo
+  },
+  {
+    path: '/login',
+    component: Login
   }
 ]
 
