@@ -7,13 +7,13 @@
       <v-toolbar-title>{{$route.meta.title}}</v-toolbar-title>
       <v-spacer></v-spacer>
 
-      <search-field v-model="keyword" @change="search"/>
+      <!-- <search-field v-model="keyword" @change="search"/> -->
       <v-btn icon @click="$router.push('/settings')" title="打开设置">
         <v-icon>mdi-cog</v-icon>
       </v-btn>
-      <v-btn icon @click="$router.push('/login')">
+      <!-- <v-btn icon @click="$router.push('/login')">
         <v-icon>mdi-account</v-icon>
-      </v-btn>
+      </v-btn> -->
     </v-app-bar>
 
     <v-navigation-drawer app mini-variant permanent class="app-nav">
@@ -61,16 +61,18 @@
 
 <script>
 import { ipcRenderer } from 'electron'
-import SearchField from '../components/SearchField'
+// import SearchField from '../components/SearchField'
 
 export default {
   name: 'Library',
   components: {
-    SearchField
+    // SearchField
   },
   data: () => ({
     keyword: ''
   }),
+  created () {
+  },
   methods: {
     search (value) {
       const re = new RegExp(value)

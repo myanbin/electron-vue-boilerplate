@@ -10,6 +10,9 @@
     </v-app-bar>
 
     <v-main class="ma-4">
+      <h5 class="text-h5 mb-4">新采编帐号</h5>
+      <p><router-link to="/login" class="text-decoration-none">点此退出</router-link>。</p>
+
       <h5 class="text-h5 mb-4">照片源</h5>
       <p>添加文件夹以包含更多照片。</p>
 

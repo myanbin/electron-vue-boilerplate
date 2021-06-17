@@ -15,6 +15,13 @@ const routes = [
   {
     path: '/',
     component: Library,
+    beforeEnter: (to, from, next) => {
+      if (!localStorage.getItem('current_user')) {
+        next('/login')
+      } else {
+        next()
+      }
+    },
     children: [
       {
         path: '',
